@@ -7,6 +7,9 @@ import com.onbroker.service.OwnerPlanService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class OwnerPlanServiceImpl implements OwnerPlanService {
 
@@ -26,6 +29,13 @@ public class OwnerPlanServiceImpl implements OwnerPlanService {
         return mapToDto(savedOwnerPlan);
 
 
+    }
+
+    @Override
+    public List<OwnerPlanDto> getAllOwnerPlans() {
+        List<OwnerPlan> ownerPlans = ownerPlanRepository.findAll();
+        List<OwnerPlanDto> ownerPlanDtos = ownerPlans.stream().map(plan -> mapToDto(plan)).collect(Collectors.toList());
+        return ownerPlanDtos;
     }
 
     OwnerPlan mapToEntity(OwnerPlanDto ownerPlanDto){
